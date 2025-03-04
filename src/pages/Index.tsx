@@ -5,6 +5,7 @@ import AddVideoForm from '@/components/AddVideoForm';
 import ExerciseSection from '@/components/ExerciseSection';
 import { VideoProvider, useVideos } from '@/context/VideoContext';
 import { toast } from 'sonner';
+import { BookOpen, Mic, Pencil } from 'lucide-react';
 
 const HomeContent = () => {
   const { videos, addVideo } = useVideos();
