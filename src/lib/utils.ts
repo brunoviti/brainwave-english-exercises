@@ -11,6 +11,15 @@ export function generateId(): string {
 }
 
 export function extractYoutubeVideoId(url: string): string | null {
+  // Handle youtube.com/shorts URLs
+  if (url.includes('youtube.com/shorts/')) {
+    const shortsMatch = url.match(/youtube\.com\/shorts\/([^/?&]+)/);
+    if (shortsMatch && shortsMatch[1]) {
+      return shortsMatch[1];
+    }
+  }
+  
+  // Handle traditional YouTube URLs
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[7].length === 11) ? match[7] : null;
