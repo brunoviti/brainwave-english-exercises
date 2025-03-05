@@ -108,6 +108,10 @@
   @apply bg-brain-writing text-white;
 }
 
+.indicator-podcast {
+  @apply bg-brain-podcast text-white;
+}
+
 /* Smooth video transitions */
 .video-appear {
   animation: fade-in 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -118,7 +122,7 @@
 }
 
 /* Responsive iframe container */
-.video-container {
+.video-container, .media-container {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
@@ -128,12 +132,16 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.video-container:hover {
+.spotify-container {
+  padding-bottom: 152px; /* Fixed height for Spotify embed */
+}
+
+.video-container:hover, .media-container:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 }
 
-.video-container iframe {
+.video-container iframe, .media-container iframe {
   position: absolute;
   top: 0;
   left: 0;
@@ -141,3 +149,33 @@
   height: 100%;
   border: 0;
 }
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+

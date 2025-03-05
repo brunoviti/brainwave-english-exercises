@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { formatYoutubeEmbedUrl, getExerciseTypeColor } from '@/lib/utils';
+import { formatYoutubeEmbedUrl, formatSpotifyEmbedUrl, getExerciseTypeColor, isSpotifyUrl } from '@/lib/utils';
 import { Video } from '@/types';
-import { BookOpen, Mic, Pencil, Trash2 } from 'lucide-react';
+import { BookOpen, Headphones, Mic, Pencil, Trash2 } from 'lucide-react';
 import { useVideos } from '@/context/VideoContext';
 
 interface VideoCardProps {
@@ -11,7 +11,10 @@ interface VideoCardProps {
 
 const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
   const { deleteVideo } = useVideos();
-  const embedUrl = formatYoutubeEmbedUrl(video.youtubeUrl);
+  const isSpotify = isSpotifyUrl(video.youtubeUrl);
+  const embedUrl = isSpotify 
+    ? formatSpotifyEmbedUrl(video.youtubeUrl) 
+    : formatYoutubeEmbedUrl(video.youtubeUrl);
   
   const getIcon = () => {
     switch(video.exerciseType) {
@@ -21,6 +24,8 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
         return <BookOpen className="w-4 h-4" />;
       case 'writing':
         return <Pencil className="w-4 h-4" />;
+      case 'podcast':
+        return <Headphones className="w-4 h-4" />;
       default:
         return null;
     }
@@ -32,13 +37,14 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-300 border border-gray-100 hover:shadow-md animate-fade-in">
-      <div className="video-container">
+      <div className={`media-container ${isSpotify ? 'spotify-container' : 'video-container'}`}>
         <iframe 
           src={embedUrl} 
           title={video.title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
+          allowFullScreen={!isSpotify}
           loading="lazy"
+          style={isSpotify ? { borderRadius: '12px' } : {}}
         ></iframe>
       </div>
       

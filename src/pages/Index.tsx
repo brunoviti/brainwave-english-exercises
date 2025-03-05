@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import AddVideoForm from '@/components/AddVideoForm';
 import ExerciseSection from '@/components/ExerciseSection';
+import PodcastSection from '@/components/PodcastSection';
 import { VideoProvider, useVideos } from '@/context/VideoContext';
-import { toast } from 'sonner';
-import { BookOpen, Mic, Pencil } from 'lucide-react';
+import { BookOpen, Headphones, Mic, Pencil } from 'lucide-react';
 
 const HomeContent = () => {
   const { videos, addVideo } = useVideos();
@@ -39,8 +39,8 @@ const HomeContent = () => {
                 Enhance Your English Skills
               </h1>
               <p className="text-lg text-muted-foreground animate-slide-up">
-                Curate and organize YouTube videos into focused exercises for articulation, 
-                reading comprehension, and writing skills. Build your personalized 
+                Curate and organize YouTube videos and Spotify podcasts into focused exercises for articulation, 
+                reading comprehension, writing skills, and auditory processing. Build your personalized 
                 English learning journey.
               </p>
             </div>
@@ -67,6 +67,13 @@ const HomeContent = () => {
                 <Pencil className="w-4 h-4" />
                 Writing
               </a>
+              <a 
+                href="#podcast" 
+                className="py-2 px-6 bg-brain-podcast text-white rounded-full transition-all hover:shadow-lg hover:shadow-brain-podcast/20 flex items-center gap-2"
+              >
+                <Headphones className="w-4 h-4" />
+                Podcasts
+              </a>
             </div>
           </div>
         </section>
@@ -89,6 +96,9 @@ const HomeContent = () => {
           title="Writing Exercises" 
           description="Develop your writing skills, grammar, and ability to express ideas clearly in written English through these structured writing exercises."
         />
+        
+        {/* Podcast Section */}
+        <PodcastSection />
         
         {/* Add Video Form Section */}
         <section id="add-video" className="py-12 scroll-mt-20">

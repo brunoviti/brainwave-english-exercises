@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useVideos } from '@/context/VideoContext';
 import { ExerciseType } from '@/types';
-import { extractYoutubeVideoId } from '@/lib/utils';
-import { BookOpen, Mic, Pencil, Youtube } from 'lucide-react';
+import { extractYoutubeVideoId, extractSpotifyId, isSpotifyUrl } from '@/lib/utils';
+import { BookOpen, Headphones, Mic, Pencil, Music } from 'lucide-react';
 import { toast } from 'sonner';
 
 const AddVideoForm: React.FC = () => {
@@ -18,13 +18,23 @@ const AddVideoForm: React.FC = () => {
     e.preventDefault();
     
     if (!url.trim() || !title.trim()) {
-      toast.error('Please enter a title and YouTube URL');
+      toast.error('Please enter a title and URL');
       return;
     }
 
-    const videoId = extractYoutubeVideoId(url);
-    if (!videoId) {
-      toast.error('Please enter a valid YouTube URL');
+    const isSpotify = isSpotifyUrl(url);
+    let isValidUrl = false;
+    
+    if (isSpotify) {
+      const spotifyId = extractSpotifyId(url);
+      isValidUrl = !!spotifyId;
+    } else {
+      const videoId = extractYoutubeVideoId(url);
+      isValidUrl = !!videoId;
+    }
+
+    if (!isValidUrl) {
+      toast.error('Please enter a valid YouTube or Spotify URL');
       return;
     }
 
@@ -45,7 +55,7 @@ const AddVideoForm: React.FC = () => {
       setExerciseType('articulation');
     } catch (error) {
       console.error('Error adding video:', error);
-      toast.error('Failed to add video. Please try again.');
+      toast.error('Failed to add exercise. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -53,23 +63,23 @@ const AddVideoForm: React.FC = () => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Add New Exercise Video</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-center">Add New Exercise</h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="url" className="block text-sm font-medium">
-            YouTube URL
+            YouTube or Spotify URL
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <Youtube className="h-4 w-4 text-gray-400" />
+              <Music className="h-4 w-4 text-gray-400" />
             </div>
             <input
               id="url"
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://www.youtube.com/watch?v=..."
+              placeholder="https://www.youtube.com/... or https://open.spotify.com/..."
               className="pl-10 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               required
             />
@@ -153,6 +163,21 @@ const AddVideoForm: React.FC = () => {
               />
               <Pencil className="w-4 h-4" />
               <span>Writing</span>
+            </label>
+            
+            <label 
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${exerciseType === 'podcast' ? 'bg-brain-podcast text-white border-brain-podcast' : 'border-gray-200 hover:border-brain-podcast/50'}`}
+            >
+              <input 
+                type="radio" 
+                name="exerciseType" 
+                value="podcast"
+                checked={exerciseType === 'podcast'}
+                onChange={() => setExerciseType('podcast')}
+                className="sr-only"
+              />
+              <Headphones className="w-4 h-4" />
+              <span>Podcast</span>
             </label>
           </div>
         </div>

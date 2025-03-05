@@ -1,5 +1,5 @@
 
-export type ExerciseType = 'articulation' | 'reading' | 'writing';
+export type ExerciseType = 'articulation' | 'reading' | 'writing' | 'podcast';
 
 export interface Video {
   id: string;

@@ -47,6 +47,29 @@ export function formatYoutubeEmbedUrl(url: string): string {
   return `${embedUrl}?${params.toString()}`;
 }
 
+export function isSpotifyUrl(url: string): boolean {
+  return url.includes('open.spotify.com');
+}
+
+export function extractSpotifyId(url: string): string | null {
+  const regExp = /open\.spotify\.com\/(episode|track|show|playlist)\/([^?&]+)/;
+  const match = url.match(regExp);
+  return match && match[2] ? match[2] : null;
+}
+
+export function formatSpotifyEmbedUrl(url: string): string {
+  const spotifyId = extractSpotifyId(url);
+  if (!spotifyId) return '';
+  
+  // Determine if it's an episode, track, show or playlist
+  let type = 'episode';
+  if (url.includes('/track/')) type = 'track';
+  if (url.includes('/show/')) type = 'show';
+  if (url.includes('/playlist/')) type = 'playlist';
+  
+  return `https://open.spotify.com/embed/${type}/${spotifyId}`;
+}
+
 export function getExerciseTypeColor(type: string): string {
   switch(type) {
     case 'articulation':
@@ -55,6 +78,8 @@ export function getExerciseTypeColor(type: string): string {
       return 'bg-brain-reading';
     case 'writing':
       return 'bg-brain-writing';
+    case 'podcast':
+      return 'bg-brain-podcast';
     default:
       return 'bg-gray-400';
   }
@@ -68,6 +93,8 @@ export function getExerciseTypeIcon(type: string): string {
       return 'book-open';
     case 'writing':
       return 'pencil';
+    case 'podcast':
+      return 'headphones';
     default:
       return 'youtube';
   }
