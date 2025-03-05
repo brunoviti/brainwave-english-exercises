@@ -68,6 +68,7 @@ export default {
 					articulation: '#6E59A5', // Purple tone - associated with creativity and expression
 					reading: '#3B82F6',      // Blue tone - associated with cognition and focus
 					writing: '#8B5CF6',      // Violet tone - associated with memory and retention
+					podcast: '#10B981',      // Green tone - associated with auditory processing and listening
 					base: '#F8FAFC',         // Light background for minimal cognitive load
 					accent: '#E0E7FF'        // Soft purple accent for subtle emphasis
 				}
