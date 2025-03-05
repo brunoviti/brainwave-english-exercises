@@ -4,24 +4,35 @@ import { Video, VideoContextType, ExerciseType } from '../types';
 import { generateId } from '../lib/utils';
 import { toast } from 'sonner';
 
+const LOCAL_STORAGE_KEY = 'brainwave-videos';
+
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
 
 export const VideoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [videos, setVideos] = useState<Video[]>(() => {
-    const savedVideos = localStorage.getItem('brainwave-videos');
-    if (savedVideos) {
-      try {
-        return JSON.parse(savedVideos);
-      } catch (e) {
-        console.error('Error parsing saved videos:', e);
-        return [];
+    try {
+      // When in browser environment, try to load from localStorage
+      if (typeof window !== 'undefined') {
+        const savedVideos = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (savedVideos) {
+          return JSON.parse(savedVideos);
+        }
       }
+    } catch (e) {
+      console.error('Error loading videos from localStorage:', e);
     }
     return [];
   });
 
+  // Save to localStorage whenever videos change
   useEffect(() => {
-    localStorage.setItem('brainwave-videos', JSON.stringify(videos));
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(videos));
+      }
+    } catch (e) {
+      console.error('Error saving videos to localStorage:', e);
+    }
   }, [videos]);
 
   const addVideo = (videoData: Omit<Video, 'id' | 'dateAdded'>) => {
