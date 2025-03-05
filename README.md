@@ -2,17 +2,48 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/3951e637-fba3-4b4f-b7e1-9186cfb90ad2
+/
+├── public/                  # Archivos públicos estáticos
+│   ├── favicon.ico         # Favicon del sitio
+│   ├── og-image.png        # Imagen para compartir en redes sociales
+│   └── placeholder.svg     # Imagen placeholder
+│
+├── src/                     # Código fuente principal
+│   ├── components/         # Componentes React reutilizables
+│   │   ├── ui/             # Componentes de interfaz de usuario (shadcn/ui)
+│   │   ├── AddVideoForm.tsx    # Formulario para agregar videos
+│   │   ├── ExerciseSection.tsx # Sección genérica para ejercicios
+│   │   ├── Header.tsx          # Encabezado del sitio
+│   │   ├── PodcastSection.tsx  # Sección específica para podcasts
+│   │   └── VideoCard.tsx       # Tarjeta para mostrar videos/podcasts
+│   │
+│   ├── context/            # Contextos de React
+│   │   └── VideoContext.tsx    # Contexto para gestionar videos/podcasts
+│   │
+│   ├── hooks/              # Hooks personalizados
+│   │   ├── use-mobile.tsx  # Hook para detectar dispositivos móviles
+│   │   └── use-toast.ts    # Hook para mostrar notificaciones
+│   │
+│   ├── lib/                # Utilidades y funciones auxiliares
+│   │   └── utils.ts        # Funciones utilitarias (formateo de URLs, etc.)
+│   │
+│   ├── pages/              # Páginas de la aplicación
+│   │   ├── Index.tsx       # Página principal
+│   │   └── NotFound.tsx    # Página 404
+│   │
+│   ├── types/              # Definiciones de tipos TypeScript
+│   │   └── index.ts        # Tipos para videos, ejercicios, etc.
+│   │
+│   ├── App.tsx             # Componente principal de la aplicación
+│   ├── index.css           # Estilos CSS globales
+│   └── main.tsx            # Punto de entrada de la aplicación
+│
+├── index.html              # Archivo HTML principal
+├── tailwind.config.ts      # Configuración de Tailwind CSS
+├── tsconfig.json           # Configuración de TypeScript
+├── vite.config.ts          # Configuración de Vite
+└── package.json            # Dependencias y scripts del proyecto
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/3951e637-fba3-4b4f-b7e1-9186cfb90ad2) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -36,11 +67,6 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
 
 **Use GitHub Codespaces**
 
@@ -64,6 +90,3 @@ This project is built with .
 
 Simply open [Lovable](https://lovable.dev/projects/3951e637-fba3-4b4f-b7e1-9186cfb90ad2) and click on Share -> Publish.
 
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
