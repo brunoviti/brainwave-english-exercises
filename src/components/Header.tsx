@@ -25,10 +25,10 @@ const Header: React.FC = () => {
   }, [location.pathname]);
   
   const navigationLinks = [
-    { href: "#articulation", label: "Articulation", icon: <Mic className="w-4 h-4" /> },
-    { href: "#reading", label: "Reading", icon: <BookOpen className="w-4 h-4" /> },
-    { href: "#writing", label: "Writing", icon: <Pencil className="w-4 h-4" /> },
-    { href: "#podcast", label: "Podcasts", icon: <Headphones className="w-4 h-4" /> },
+    { href: "/articulation", label: "Articulation", icon: <Mic className="w-4 h-4" /> },
+    { href: "/reading", label: "Reading", icon: <BookOpen className="w-4 h-4" /> },
+    { href: "/writing", label: "Writing", icon: <Pencil className="w-4 h-4" /> },
+    { href: "/podcast", label: "Podcasts", icon: <Headphones className="w-4 h-4" /> },
     { href: "/pronunciation-feedback", label: "AI Feedback", icon: <Brain className="w-4 h-4" /> },
   ];
   
@@ -65,7 +65,8 @@ const Header: React.FC = () => {
               to={link.href}
               className={cn(
                 "flex items-center gap-1.5 text-sm font-medium transition-colors",
-                isScrolled ? "text-gray-700 hover:text-primary" : "text-gray-800 hover:text-primary"
+                isScrolled ? "text-gray-700 hover:text-primary" : "text-gray-800 hover:text-primary",
+                location.pathname === link.href ? "text-primary font-semibold" : ""
               )}
             >
               {link.icon}
@@ -91,7 +92,10 @@ const Header: React.FC = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100"
+                    className={cn(
+                      "flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100",
+                      location.pathname === link.href ? "bg-gray-100 font-medium" : ""
+                    )}
                   >
                     <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
                       {link.icon}

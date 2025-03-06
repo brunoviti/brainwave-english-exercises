@@ -14,7 +14,7 @@ const HomeContent = () => {
   useEffect(() => {
     // Add example video if no videos exist
     if (videos.length === 0) {
-      const exampleUrl = "https://www.youtube.com/embed/KwUe9i24KSA?si=xTxKmdsCRABB_H3T&start=380";
+      const exampleUrl = "https://www.youtube.com/embed/KwUe9YHcvj6GT2YYXdXww?si=xTxKmdsCRABB_H3T&start=380";
       addVideo({
         title: "English Pronunciation Practice",
         description: "Learn English Pronunciation with this exercise that focuses on commonly mispronounced words and phrases.",
@@ -47,34 +47,34 @@ const HomeContent = () => {
             </div>
             
             <div className="flex flex-wrap gap-4 justify-center mt-8">
-              <a 
-                href="#articulation" 
+              <Link 
+                to="/articulation" 
                 className="py-2 px-6 bg-brain-articulation text-white rounded-full transition-all hover:shadow-lg hover:shadow-brain-articulation/20 flex items-center gap-2"
               >
                 <Mic className="w-4 h-4" />
                 Articulation
-              </a>
-              <a 
-                href="#reading" 
+              </Link>
+              <Link 
+                to="/reading" 
                 className="py-2 px-6 bg-brain-reading text-white rounded-full transition-all hover:shadow-lg hover:shadow-brain-reading/20 flex items-center gap-2"
               >
                 <BookOpen className="w-4 h-4" />
                 Reading
-              </a>
-              <a 
-                href="#writing" 
+              </Link>
+              <Link 
+                to="/writing" 
                 className="py-2 px-6 bg-brain-writing text-white rounded-full transition-all hover:shadow-lg hover:shadow-brain-writing/20 flex items-center gap-2"
               >
                 <Pencil className="w-4 h-4" />
                 Writing
-              </a>
-              <a 
-                href="#podcast" 
+              </Link>
+              <Link 
+                to="/podcast" 
                 className="py-2 px-6 bg-brain-podcast text-white rounded-full transition-all hover:shadow-lg hover:shadow-brain-podcast/20 flex items-center gap-2"
               >
                 <Headphones className="w-4 h-4" />
                 Podcasts
-              </a>
+              </Link>
               <Link 
                 to="/pronunciation-feedback" 
                 className="py-2 px-6 bg-primary text-white rounded-full transition-all hover:shadow-lg hover:shadow-primary/20 flex items-center gap-2"
