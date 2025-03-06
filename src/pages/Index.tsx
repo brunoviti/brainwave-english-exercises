@@ -5,7 +5,8 @@ import AddVideoForm from '@/components/AddVideoForm';
 import ExerciseSection from '@/components/ExerciseSection';
 import PodcastSection from '@/components/PodcastSection';
 import { VideoProvider, useVideos } from '@/context/VideoContext';
-import { BookOpen, Headphones, Mic, Pencil } from 'lucide-react';
+import { BookOpen, Headphones, Mic, Pencil, Brain } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HomeContent = () => {
   const { videos, addVideo } = useVideos();
@@ -74,6 +75,13 @@ const HomeContent = () => {
                 <Headphones className="w-4 h-4" />
                 Podcasts
               </a>
+              <Link 
+                to="/pronunciation-feedback" 
+                className="py-2 px-6 bg-primary text-white rounded-full transition-all hover:shadow-lg hover:shadow-primary/20 flex items-center gap-2"
+              >
+                <Brain className="w-4 h-4" />
+                AI Feedback
+              </Link>
             </div>
           </div>
         </section>
@@ -106,6 +114,29 @@ const HomeContent = () => {
             <div className="max-w-2xl mx-auto">
               <h2 className="text-2xl font-semibold mb-8 text-center">Add New Exercise</h2>
               <AddVideoForm />
+            </div>
+          </div>
+        </section>
+        
+        {/* AI Pronunciation Feedback Section */}
+        <section className="py-12 bg-brain-base">
+          <div className="container mx-auto px-4 text-center">
+            <div className="max-w-3xl mx-auto">
+              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
+                New Feature
+              </span>
+              <h2 className="text-3xl font-bold mb-4">AI Pronunciation Analysis</h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Get instant feedback on your pronunciation and grammar with our AI-powered tool. 
+                Record your speech and receive personalized suggestions to improve your English.
+              </p>
+              <Link
+                to="/pronunciation-feedback"
+                className="inline-flex items-center gap-2 bg-primary text-white py-2 px-6 rounded-full hover:bg-primary/90 transition-colors"
+              >
+                <Brain className="w-4 h-4" />
+                Try AI Feedback
+              </Link>
             </div>
           </div>
         </section>

@@ -1,56 +1,51 @@
-
 import React, { useState, useEffect } from 'react';
+import { Menu, X, BookOpen, Headphones, Mic, Pencil, Brain } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useMediaQuery } from '@/hooks/use-mobile';
 
 const Header: React.FC = () => {
-  const [scrolled, setScrolled] = useState(false);
-
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const location = useLocation();
+  
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 0);
     };
-
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+  
+  const navigationLinks = [
+    { href: "#articulation", label: "Articulation", icon: <Mic className="w-4 h-4" /> },
+    { href: "#reading", label: "Reading", icon: <BookOpen className="w-4 h-4" /> },
+    { href: "#writing", label: "Writing", icon: <Pencil className="w-4 h-4" /> },
+    { href: "#podcast", label: "Podcasts", icon: <Headphones className="w-4 h-4" /> },
+    { href: "/pronunciation-feedback", label: "AI Feedback", icon: <Brain className="w-4 h-4" /> },
+  ];
+  
   return (
-    <header 
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out',
-        scrolled 
-          ? 'py-3 glass border-b border-gray-200/20' 
-          : 'py-5 bg-transparent'
-      )}
-    >
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+      isScrolled ? "bg-white shadow-sm py-3" : "bg-transparent py-4"
+    )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-brain-articulation to-brain-reading flex items-center justify-center">
-            <span className="text-white font-semibold text-lg">B</span>
-          </div>
-          <div className="flex flex-col">
-            <h1 className="font-semibold text-xl tracking-tight">Brainwave</h1>
-            <p className="text-xs text-muted-foreground">English Exercises</p>
-          </div>
-        </div>
-        
-        <nav className="hidden md:flex space-x-8">
-          <a href="#articulation" className="text-sm font-medium hover:text-primary transition-colors">
-            Articulation
-          </a>
-          <a href="#reading" className="text-sm font-medium hover:text-primary transition-colors">
-            Reading
-          </a>
-          <a href="#writing" className="text-sm font-medium hover:text-primary transition-colors">
-            Writing
-          </a>
-          <a href="#add-video" className="text-sm font-medium hover:text-primary transition-colors">
-            Add Video
-          </a>
-        </nav>
+        <Link to="/" className="flex items-center gap-2">
+          <span className="font-bold text-xl">Brainwave</span>
+        </Link>
         
         <div className="md:hidden">
-          <button className="p-2 rounded-md hover:bg-gray-100/50">
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 rounded-md hover:bg-gray-100/50"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
               <line x1="4" x2="20" y1="12" y2="12" />
               <line x1="4" x2="20" y1="6" y2="6" />
@@ -58,6 +53,55 @@ const Header: React.FC = () => {
             </svg>
           </button>
         </div>
+        
+        <nav className={cn(
+          "md:flex items-center gap-6",
+          isMobile ? "hidden" : ""
+        )}>
+          {navigationLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.href}
+              className={cn(
+                "flex items-center gap-1.5 text-sm font-medium transition-colors",
+                isScrolled ? "text-gray-700 hover:text-primary" : "text-gray-800 hover:text-primary"
+              )}
+            >
+              {link.icon}
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        
+        {isMobile && isMenuOpen && (
+          <div className="fixed inset-0 bg-white z-50 pt-16">
+            <div className="container mx-auto px-4">
+              <div className="absolute top-4 right-4">
+                <button 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="p-2 rounded-full hover:bg-gray-100"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <nav className="flex flex-col gap-4 pt-8">
+                {navigationLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-100"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                      {link.icon}
+                    </div>
+                    <span className="font-medium">{link.label}</span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
