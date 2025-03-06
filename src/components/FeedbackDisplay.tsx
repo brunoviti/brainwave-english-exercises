@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { CheckCircle, XCircle, AlertTriangle, Info, BookOpen } from 'lucide-react';
+import { CheckCircle, XCircle, AlertTriangle, Info, BookOpen, BarChart2 } from 'lucide-react';
 
 export interface Feedback {
   id: string;
@@ -45,6 +45,21 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ feedback }) => {
     }
   };
 
+  // Ordenar feedback por severidad y tipo
+  const sortedFeedback = [...feedback].sort((a, b) => {
+    // Primero ordenar por severidad (error > warning > info > success)
+    const severityOrder = { error: 0, warning: 1, info: 2, success: 3 };
+    const severityDiff = severityOrder[a.severity as keyof typeof severityOrder] - 
+                         severityOrder[b.severity as keyof typeof severityOrder];
+    
+    if (severityDiff !== 0) return severityDiff;
+    
+    // Luego ordenar por tipo
+    const typeOrder = { pronunciation: 0, grammar: 1, general: 2 };
+    return typeOrder[a.type as keyof typeof typeOrder] - 
+           typeOrder[b.type as keyof typeof typeOrder];
+  });
+
   if (feedback.length === 0) {
     return (
       <div className="p-8 text-center text-muted-foreground">
@@ -53,12 +68,53 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ feedback }) => {
     );
   }
 
+  // Contar las diferentes categorías de feedback
+  const errorCount = feedback.filter(item => item.severity === 'error').length;
+  const warningCount = feedback.filter(item => item.severity === 'warning').length;
+  const infoCount = feedback.filter(item => item.severity === 'info').length;
+  const successCount = feedback.filter(item => item.severity === 'success').length;
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Análisis de Feedback</h3>
       
+      {/* Resumen del análisis */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+        <div className="bg-red-50 border border-red-100 rounded-lg p-3 flex items-center gap-2">
+          <XCircle className="text-red-500 h-5 w-5" />
+          <div>
+            <p className="text-xs text-muted-foreground">Errores</p>
+            <p className="text-lg font-semibold">{errorCount}</p>
+          </div>
+        </div>
+        
+        <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 flex items-center gap-2">
+          <AlertTriangle className="text-amber-500 h-5 w-5" />
+          <div>
+            <p className="text-xs text-muted-foreground">Advertencias</p>
+            <p className="text-lg font-semibold">{warningCount}</p>
+          </div>
+        </div>
+        
+        <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 flex items-center gap-2">
+          <Info className="text-blue-500 h-5 w-5" />
+          <div>
+            <p className="text-xs text-muted-foreground">Sugerencias</p>
+            <p className="text-lg font-semibold">{infoCount}</p>
+          </div>
+        </div>
+        
+        <div className="bg-green-50 border border-green-100 rounded-lg p-3 flex items-center gap-2">
+          <CheckCircle className="text-green-500 h-5 w-5" />
+          <div>
+            <p className="text-xs text-muted-foreground">Logros</p>
+            <p className="text-lg font-semibold">{successCount}</p>
+          </div>
+        </div>
+      </div>
+      
       <div className="rounded-lg border bg-card">
-        {feedback.map((item) => (
+        {sortedFeedback.map((item) => (
           <div key={item.id} className="border-b last:border-0 p-4">
             <div className="flex items-start gap-3">
               <div className="pt-1">{getIconForSeverity(item.severity)}</div>
@@ -96,17 +152,27 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ feedback }) => {
         ))}
       </div>
       
-      <div className="flex items-center justify-between text-sm text-muted-foreground pt-2">
-        <p>Total de observaciones: {feedback.length}</p>
-        <div className="flex gap-2">
-          <span className="flex items-center">
-            <div className="h-2 w-2 rounded-full bg-brain-articulation mr-1"></div>
-            Pronunciación: {feedback.filter(f => f.type === 'pronunciation').length}
-          </span>
-          <span className="flex items-center">
-            <div className="h-2 w-2 rounded-full bg-brain-writing mr-1"></div>
-            Gramática: {feedback.filter(f => f.type === 'grammar').length}
-          </span>
+      {/* Distribución de feedback por categoría */}
+      <div className="p-4 bg-muted/20 rounded-lg">
+        <div className="flex items-center gap-2 mb-3">
+          <BarChart2 className="h-5 w-5 text-muted-foreground" />
+          <h4 className="text-sm font-medium">Distribución de observaciones</h4>
+        </div>
+        
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-brain-articulation"></div>
+            <span className="text-sm text-muted-foreground">Pronunciación:</span>
+            <span className="text-sm font-medium">{feedback.filter(f => f.type === 'pronunciation').length}</span>
+            
+            <div className="ml-4 h-2 w-2 rounded-full bg-brain-writing"></div>
+            <span className="text-sm text-muted-foreground">Gramática:</span>
+            <span className="text-sm font-medium">{feedback.filter(f => f.type === 'grammar').length}</span>
+            
+            <div className="ml-4 h-2 w-2 rounded-full bg-brain-reading"></div>
+            <span className="text-sm text-muted-foreground">General:</span>
+            <span className="text-sm font-medium">{feedback.filter(f => f.type === 'general').length}</span>
+          </div>
         </div>
       </div>
     </div>
