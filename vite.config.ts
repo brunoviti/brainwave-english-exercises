@@ -10,7 +10,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  base: mode === 'production' ? '/brainwave-english-exercises/' : '/',
+  // Using relative paths for assets to ensure compatibility with any deployment environment
+  base: "./",
   plugins: [
     react(),
     mode === 'development' &&
