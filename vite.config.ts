@@ -10,8 +10,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  // Using relative paths for assets to ensure compatibility with any deployment environment
-  base: "./",
+  // For GitHub Pages deployment use the repo name, for other deployments use root
+  base: "/",
   plugins: [
     react(),
     mode === 'development' &&

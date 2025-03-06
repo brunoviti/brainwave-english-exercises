@@ -36,6 +36,8 @@ jobs:
         env:
           # Ensure Vite knows it's a production build
           NODE_ENV: production
+          # Set PUBLIC_URL for correct asset paths
+          PUBLIC_URL: "/"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
