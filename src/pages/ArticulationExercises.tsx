@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import { Mic } from 'lucide-react';
@@ -69,43 +68,42 @@ const ArticulationExercises: React.FC = () => {
   );
 };
 
-// Datos de ejemplo para los ejercicios
 const articulation_exercises = [
   {
     title: "Sonidos TH",
     description: "Practica la pronunciación de los sonidos 'th' sonoro y sordo en inglés.",
     practice: "Think, that, this, those, them, there, with, forth, mother, father",
-    videoUrl: "https://www.youtube.com/watch?v=6uS3rJIlP7g"
+    videoUrl: "https://www.youtube.com/watch?v=h5LO0hHGfQg"
   },
   {
     title: "Vocales Largas vs Cortas",
     description: "Aprende a diferenciar entre vocales largas y cortas en inglés.",
     practice: "ship/sheep, bit/beat, full/fool, pull/pool, could/food",
-    videoUrl: "https://www.youtube.com/watch?v=QZW9L7Cz6xE"
+    videoUrl: "https://www.youtube.com/watch?v=9E6VDiMedd8"
   },
   {
     title: "Consonantes Finales",
     description: "Practica la pronunciación clara de consonantes al final de las palabras.",
     practice: "light, night, right, sight, fight, might, tight, height",
-    videoUrl: "https://www.youtube.com/watch?v=0P6J_n-A1sU"
+    videoUrl: "https://www.youtube.com/watch?v=CwrQBYzm8B8"
   },
   {
     title: "Sonido R",
     description: "Mejora tu pronunciación del sonido 'r' en inglés americano.",
     practice: "red, right, wrong, rhythm, repeat, very, sorry, hurry",
-    videoUrl: "https://www.youtube.com/watch?v=j7YhMcFDewM"
+    videoUrl: "https://www.youtube.com/watch?v=3XRTN5gW4oU"
   },
   {
     title: "Consonantes Problemáticas",
     description: "Practica consonantes que pueden resultar difíciles para hispanohablantes.",
     practice: "jungle, vision, measure, pleasure, treasure, usual",
-    videoUrl: "https://www.youtube.com/watch?v=h_XmJBV0Ly0"
+    videoUrl: "https://www.youtube.com/watch?v=QuHpz9dxgTI"
   },
   {
     title: "Trabalenguas",
     description: "Mejora tu fluidez y pronunciación con trabalenguas en inglés.",
     practice: "Peter Piper picked a peck of pickled peppers.",
-    videoUrl: "https://www.youtube.com/watch?v=nf2VEk7-7ho"
+    videoUrl: "https://www.youtube.com/watch?v=yZiPEiNlyEI"
   }
 ];
 

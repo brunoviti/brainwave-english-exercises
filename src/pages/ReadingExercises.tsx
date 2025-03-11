@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import { BookOpen } from 'lucide-react';
@@ -80,7 +79,6 @@ const ReadingExercises: React.FC = () => {
   );
 };
 
-// Datos de ejemplo para los ejercicios
 const reading_exercises = [
   {
     title: "The Curious Case of Benjamin Button",
@@ -92,7 +90,7 @@ const reading_exercises = [
       "¿Qué era lo común en esa época respecto al nacimiento?",
       "¿Qué significa que los Button estaban 'fifty years ahead of style'?"
     ],
-    fullTextUrl: "https://www.commonlit.org/en/texts/the-curious-case-of-benjamin-button"
+    fullTextUrl: "https://www.youtube.com/watch?v=8xVf4iJPTZk"
   },
   {
     title: "The Gift of the Magi",
@@ -104,7 +102,7 @@ const reading_exercises = [
       "¿Qué festividad se acercaba?",
       "¿Qué nos dice este párrafo sobre la situación económica de Della?"
     ],
-    fullTextUrl: "https://www.commonlit.org/en/texts/the-gift-of-the-magi"
+    fullTextUrl: "https://www.youtube.com/watch?v=bO6HrBPez3Q"
   },
   {
     title: "The Tell-Tale Heart",
@@ -116,7 +114,7 @@ const reading_exercises = [
       "¿Qué intenta probar el narrador al lector?",
       "¿Qué técnica narrativa utiliza Poe en este párrafo?"
     ],
-    fullTextUrl: "https://www.commonlit.org/en/texts/the-tell-tale-heart"
+    fullTextUrl: "https://www.youtube.com/watch?v=sN1xYE_2pYk"
   },
   {
     title: "The Importance of Being Earnest",
@@ -128,7 +126,7 @@ const reading_exercises = [
       "¿Qué acusación hace Algernon a Jack?",
       "¿Qué podría significar el término 'Bunburyist'?"
     ],
-    fullTextUrl: "https://www.gutenberg.org/files/844/844-h/844-h.htm"
+    fullTextUrl: "https://www.youtube.com/watch?v=W6_HkqQ4nYk"
   }
 ];
 
