@@ -1,8 +1,15 @@
 
 import React from 'react';
-import { formatYoutubeEmbedUrl, formatSpotifyEmbedUrl, getExerciseTypeColor, isSpotifyUrl } from '@/lib/utils';
+import { 
+  formatYoutubeEmbedUrl, 
+  formatSpotifyEmbedUrl, 
+  formatInstagramEmbedUrl,
+  getExerciseTypeColor, 
+  isSpotifyUrl,
+  isInstagramUrl
+} from '@/lib/utils';
 import { Video } from '@/types';
-import { BookOpen, Headphones, Mic, Pencil, Trash2 } from 'lucide-react';
+import { BookOpen, Headphones, Mic, Pencil, Trash2, Instagram } from 'lucide-react';
 import { useVideos } from '@/context/VideoContext';
 
 interface VideoCardProps {
@@ -12,9 +19,16 @@ interface VideoCardProps {
 const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
   const { deleteVideo } = useVideos();
   const isSpotify = isSpotifyUrl(video.youtubeUrl);
-  const embedUrl = isSpotify 
-    ? formatSpotifyEmbedUrl(video.youtubeUrl) 
-    : formatYoutubeEmbedUrl(video.youtubeUrl);
+  const isInstagram = isInstagramUrl(video.youtubeUrl);
+  
+  let embedUrl = '';
+  if (isSpotify) {
+    embedUrl = formatSpotifyEmbedUrl(video.youtubeUrl);
+  } else if (isInstagram) {
+    embedUrl = formatInstagramEmbedUrl(video.youtubeUrl);
+  } else {
+    embedUrl = formatYoutubeEmbedUrl(video.youtubeUrl);
+  }
   
   const getIcon = () => {
     switch(video.exerciseType) {
@@ -37,7 +51,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-300 border border-gray-100 hover:shadow-md animate-fade-in">
-      <div className={`media-container ${isSpotify ? 'spotify-container' : 'video-container'}`}>
+      <div className={`media-container ${isSpotify ? 'spotify-container' : isInstagram ? 'instagram-container' : 'video-container'}`}>
         <iframe 
           src={embedUrl} 
           title={video.title}
@@ -45,6 +59,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
           allowFullScreen={!isSpotify}
           loading="lazy"
           style={isSpotify ? { borderRadius: '12px' } : {}}
+          className={isInstagram ? "w-full aspect-[9/16] md:aspect-square" : ""}
         ></iframe>
       </div>
       

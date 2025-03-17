@@ -51,8 +51,19 @@ export function isSpotifyUrl(url: string): boolean {
   return url.includes('open.spotify.com');
 }
 
+export function isInstagramUrl(url: string): boolean {
+  return url.includes('instagram.com') && (url.includes('/reel/') || url.includes('/p/'));
+}
+
 export function extractSpotifyId(url: string): string | null {
   const regExp = /open\.spotify\.com\/(episode|track|show|playlist)\/([^?&]+)/;
+  const match = url.match(regExp);
+  return match && match[2] ? match[2] : null;
+}
+
+export function extractInstagramId(url: string): string | null {
+  // Handle both reel and post URLs
+  const regExp = /instagram\.com\/(reel|p)\/([^/?&]+)/;
   const match = url.match(regExp);
   return match && match[2] ? match[2] : null;
 }
@@ -68,6 +79,18 @@ export function formatSpotifyEmbedUrl(url: string): string {
   if (url.includes('/playlist/')) type = 'playlist';
   
   return `https://open.spotify.com/embed/${type}/${spotifyId}`;
+}
+
+export function formatInstagramEmbedUrl(url: string): string {
+  const instagramId = extractInstagramId(url);
+  if (!instagramId) return '';
+  
+  // Determine if it's a reel or post
+  const isReel = url.includes('/reel/');
+  const type = isReel ? 'reel' : 'p';
+  
+  // Create the embed URL
+  return `https://www.instagram.com/${type}/${instagramId}/embed`;
 }
 
 export function getExerciseTypeColor(type: string): string {

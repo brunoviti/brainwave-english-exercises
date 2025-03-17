@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useVideos } from '@/context/VideoContext';
 import { ExerciseType } from '@/types';
-import { extractYoutubeVideoId, extractSpotifyId, isSpotifyUrl } from '@/lib/utils';
-import { BookOpen, Headphones, Mic, Pencil, Music } from 'lucide-react';
+import { extractYoutubeVideoId, extractSpotifyId, extractInstagramId, isSpotifyUrl, isInstagramUrl } from '@/lib/utils';
+import { BookOpen, Headphones, Mic, Pencil, Music, Instagram } from 'lucide-react';
 import { toast } from 'sonner';
 
 const AddVideoForm: React.FC = () => {
@@ -23,18 +23,22 @@ const AddVideoForm: React.FC = () => {
     }
 
     const isSpotify = isSpotifyUrl(url);
+    const isInstagram = isInstagramUrl(url);
     let isValidUrl = false;
     
     if (isSpotify) {
       const spotifyId = extractSpotifyId(url);
       isValidUrl = !!spotifyId;
+    } else if (isInstagram) {
+      const instagramId = extractInstagramId(url);
+      isValidUrl = !!instagramId;
     } else {
       const videoId = extractYoutubeVideoId(url);
       isValidUrl = !!videoId;
     }
 
     if (!isValidUrl) {
-      toast.error('Please enter a valid YouTube or Spotify URL');
+      toast.error('Please enter a valid YouTube, Spotify, or Instagram URL');
       return;
     }
 
@@ -44,7 +48,7 @@ const AddVideoForm: React.FC = () => {
       addVideo({
         title,
         description,
-        youtubeUrl: url,
+        youtubeUrl: url,  // We'll keep the field name but it can now contain any supported URL
         exerciseType,
       });
       
@@ -53,6 +57,7 @@ const AddVideoForm: React.FC = () => {
       setTitle('');
       setDescription('');
       setExerciseType('articulation');
+      toast.success('Exercise added successfully!');
     } catch (error) {
       console.error('Error adding video:', error);
       toast.error('Failed to add exercise. Please try again.');
@@ -68,7 +73,7 @@ const AddVideoForm: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="url" className="block text-sm font-medium">
-            YouTube or Spotify URL
+            YouTube, Spotify, or Instagram URL
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -79,7 +84,7 @@ const AddVideoForm: React.FC = () => {
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://www.youtube.com/... or https://open.spotify.com/..."
+              placeholder="https://www.youtube.com/..., https://open.spotify.com/..., or https://www.instagram.com/..."
               className="pl-10 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               required
             />
