@@ -131,3 +131,76 @@ export const animationConfig = {
   'slide-left': 'animate-slide-left',
   'slide-right': 'animate-slide-right',
 };
+
+export interface TextError {
+  text: string;
+  suggestion: string;
+  explanation: string;
+  severity: 'error' | 'warning' | 'info';
+}
+
+// Common American English grammar and spelling errors
+export const commonErrors: TextError[] = [
+  {
+    text: 'alot',
+    suggestion: 'a lot',
+    explanation: '"A lot" is always written as two separate words in standard American English.',
+    severity: 'error'
+  },
+  {
+    text: 'your welcome',
+    suggestion: "you're welcome",
+    explanation: 'Use "you\'re" (contraction of "you are") instead of the possessive "your" in this context.',
+    severity: 'error'
+  },
+  {
+    text: 'could of',
+    suggestion: 'could have',
+    explanation: 'The correct phrase is "could have" (often contracted to "could\'ve"), not "could of".',
+    severity: 'error'
+  },
+  {
+    text: 'i ',
+    suggestion: 'I ',
+    explanation: 'The first-person singular pronoun "I" is always capitalized in English.',
+    severity: 'error'
+  },
+  {
+    text: 'loose ',
+    suggestion: 'lose ',
+    explanation: '"Loose" means not tight, while "lose" means to be deprived of or to fail to win.',
+    severity: 'warning'
+  },
+  {
+    text: 'effect ',
+    suggestion: 'affect ',
+    explanation: '"Effect" is usually a noun, while "affect" is usually a verb meaning to influence.',
+    severity: 'warning'
+  },
+  {
+    text: 'irregardless',
+    suggestion: 'regardless',
+    explanation: '"Irregardless" is not standard in American English. Use "regardless" instead.',
+    severity: 'error'
+  },
+  {
+    text: 'then ',
+    suggestion: 'than ',
+    explanation: 'Use "than" for comparisons and "then" for time or sequence.',
+    severity: 'warning'
+  }
+];
+
+export function analyzeTextGrammar(text: string): TextError[] {
+  // This would be expanded in a real application with more sophisticated analysis
+  // For now, it just looks for common errors
+  const errors: TextError[] = [];
+  
+  commonErrors.forEach(error => {
+    if (text.toLowerCase().includes(error.text)) {
+      errors.push(error);
+    }
+  });
+  
+  return errors;
+}

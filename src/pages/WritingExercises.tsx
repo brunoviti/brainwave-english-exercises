@@ -8,9 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import WritingPracticeArea from '@/components/WritingPracticeArea';
+import TextRevisionArea from '@/components/TextRevisionArea';
 
 const WritingExercises: React.FC = () => {
   const [activeTab, setActiveTab] = useState('examples');
+  const [expandedExercises, setExpandedExercises] = useState<number[]>([]);
+
+  const toggleExerciseExpansion = (index: number) => {
+    if (expandedExercises.includes(index)) {
+      setExpandedExercises(expandedExercises.filter(i => i !== index));
+    } else {
+      setExpandedExercises([...expandedExercises, index]);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -84,18 +94,54 @@ const WritingExercises: React.FC = () => {
                         )}
                       </div>
                       
-                      <a 
-                        href={exercise.resourceUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-brain-writing hover:underline font-medium inline-flex items-center gap-1"
-                      >
-                        Recursos adicionales
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
-                          <line x1="7" y1="17" x2="17" y2="7"></line>
-                          <polyline points="7 7 17 7 17 17"></polyline>
-                        </svg>
-                      </a>
+                      <div className="flex justify-between items-center mb-4">
+                        <a 
+                          href={exercise.resourceUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-brain-writing hover:underline font-medium inline-flex items-center gap-1"
+                        >
+                          Recursos adicionales
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                          </svg>
+                        </a>
+                        
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => toggleExerciseExpansion(index)}
+                          className="text-xs flex items-center gap-1"
+                        >
+                          {expandedExercises.includes(index) ? "Ocultar práctica" : "Mostrar práctica"}
+                          <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="16" 
+                            height="16" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            className={`ml-1 transition-transform ${expandedExercises.includes(index) ? 'rotate-180' : ''}`}
+                          >
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </Button>
+                      </div>
+                      
+                      {expandedExercises.includes(index) && (
+                        <div className="border-t pt-4 animate-fade-in">
+                          <h4 className="font-medium mb-2">Práctica:</h4>
+                          <TextRevisionArea 
+                            exerciseContext={exercise.category}
+                            instructions={`Practica este ejercicio de ${exercise.title.toLowerCase()} siguiendo las instrucciones anteriores.`}
+                            placeholder={`Escribe tu ejercicio de ${exercise.title.toLowerCase()} aquí...`}
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -135,7 +181,8 @@ const writing_exercises = [
       "Recuerda las formas irregulares de los verbos en pasado.",
       "Presta atención a los auxiliares necesarios en cada tiempo verbal."
     ],
-    resourceUrl: "https://www.perfect-english-grammar.com/verb-tenses.html"
+    resourceUrl: "https://www.perfect-english-grammar.com/verb-tenses.html",
+    category: "verbs"
   },
   {
     title: "Ensayo Argumentativo",
@@ -151,7 +198,8 @@ const writing_exercises = [
       "Incluye ejemplos específicos para apoyar tus argumentos.",
       "Considera el punto de vista contrario para fortalecer tus argumentos."
     ],
-    resourceUrl: "https://owl.purdue.edu/owl/general_writing/academic_writing/essay_writing/argumentative_essays.html"
+    resourceUrl: "https://owl.purdue.edu/owl/general_writing/academic_writing/essay_writing/argumentative_essays.html",
+    category: "business-writing"
   },
   {
     title: "Corrección de Errores",
@@ -166,7 +214,8 @@ const writing_exercises = [
       "Revisa el uso correcto de preposiciones.",
       "Verifica el uso correcto de los tiempos verbales con adverbios de tiempo."
     ],
-    resourceUrl: "https://www.grammarly.com/blog/category/handbook/"
+    resourceUrl: "https://www.grammarly.com/blog/category/handbook/",
+    category: "grammar"
   },
   {
     title: "Parafraseo",
@@ -181,7 +230,8 @@ const writing_exercises = [
       "Cambia la estructura de las oraciones (activa a pasiva, o viceversa).",
       "Reorganiza el orden de las ideas manteniendo el sentido original."
     ],
-    resourceUrl: "https://www.scribbr.com/citing-sources/how-to-paraphrase/"
+    resourceUrl: "https://www.scribbr.com/citing-sources/how-to-paraphrase/",
+    category: "daily-activities"
   }
 ];
 
