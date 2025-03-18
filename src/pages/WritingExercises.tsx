@@ -1,9 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Header';
-import { Pencil } from 'lucide-react';
+import { Pencil, CheckCircle, BookOpen, AlignLeft } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import WritingPracticeArea from '@/components/WritingPracticeArea';
 
 const WritingExercises: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('examples');
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -25,59 +33,78 @@ const WritingExercises: React.FC = () => {
           </div>
         </section>
         
-        <section className="py-12">
+        <section className="py-6">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-8">
-              {writing_exercises.map((exercise, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl shadow-sm border">
-                  <div className="w-10 h-10 bg-brain-writing/10 rounded-full flex items-center justify-center mb-4">
-                    <Pencil className="w-5 h-5 text-brain-writing" />
-                  </div>
-                  <h3 className="text-xl font-medium mb-2">{exercise.title}</h3>
-                  <p className="text-muted-foreground mb-4">{exercise.description}</p>
-                  
-                  <div className="p-4 bg-gray-50 rounded-lg mb-4">
-                    <h4 className="font-medium mb-2">Instrucciones:</h4>
-                    <p className="text-sm mb-3">{exercise.instructions}</p>
-                    
-                    {exercise.examples && (
-                      <div className="mt-3">
-                        <h5 className="font-medium text-sm">Ejemplos:</h5>
-                        <ul className="list-disc list-inside space-y-1 text-sm mt-1">
-                          {exercise.examples.map((example, eIndex) => (
-                            <li key={eIndex}>{example}</li>
-                          ))}
-                        </ul>
+            <Tabs defaultValue="practice" className="w-full">
+              <TabsList className="w-full max-w-md mx-auto mb-8 grid grid-cols-2">
+                <TabsTrigger value="examples" onClick={() => setActiveTab('examples')}>
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Ejemplos y Guías
+                </TabsTrigger>
+                <TabsTrigger value="practice" onClick={() => setActiveTab('practice')}>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Práctica de Escritura
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="examples" className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-8">
+                  {writing_exercises.map((exercise, index) => (
+                    <div key={index} className="bg-white p-6 rounded-xl shadow-sm border">
+                      <div className="w-10 h-10 bg-brain-writing/10 rounded-full flex items-center justify-center mb-4">
+                        <Pencil className="w-5 h-5 text-brain-writing" />
                       </div>
-                    )}
-                    
-                    {exercise.hints && (
-                      <div className="mt-3 p-2 bg-blue-50 rounded text-sm">
-                        <h5 className="font-medium text-blue-800">Consejos:</h5>
-                        <ul className="list-disc list-inside space-y-1 text-blue-800 mt-1">
-                          {exercise.hints.map((hint, hIndex) => (
-                            <li key={hIndex}>{hint}</li>
-                          ))}
-                        </ul>
+                      <h3 className="text-xl font-medium mb-2">{exercise.title}</h3>
+                      <p className="text-muted-foreground mb-4">{exercise.description}</p>
+                      
+                      <div className="p-4 bg-gray-50 rounded-lg mb-4">
+                        <h4 className="font-medium mb-2">Instrucciones:</h4>
+                        <p className="text-sm mb-3">{exercise.instructions}</p>
+                        
+                        {exercise.examples && (
+                          <div className="mt-3">
+                            <h5 className="font-medium text-sm">Ejemplos:</h5>
+                            <ul className="list-disc list-inside space-y-1 text-sm mt-1">
+                              {exercise.examples.map((example, eIndex) => (
+                                <li key={eIndex}>{example}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {exercise.hints && (
+                          <div className="mt-3 p-2 bg-blue-50 rounded text-sm">
+                            <h5 className="font-medium text-blue-800">Consejos:</h5>
+                            <ul className="list-disc list-inside space-y-1 text-blue-800 mt-1">
+                              {exercise.hints.map((hint, hIndex) => (
+                                <li key={hIndex}>{hint}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  
-                  <a 
-                    href={exercise.resourceUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-brain-writing hover:underline font-medium inline-flex items-center gap-1"
-                  >
-                    Recursos adicionales
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
-                      <line x1="7" y1="17" x2="17" y2="7"></line>
-                      <polyline points="7 7 17 7 17 17"></polyline>
-                    </svg>
-                  </a>
+                      
+                      <a 
+                        href={exercise.resourceUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-brain-writing hover:underline font-medium inline-flex items-center gap-1"
+                      >
+                        Recursos adicionales
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </a>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </TabsContent>
+
+              <TabsContent value="practice">
+                <WritingPracticeArea />
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
       </main>

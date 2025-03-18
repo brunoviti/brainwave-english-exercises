@@ -122,3 +122,12 @@ export function getExerciseTypeIcon(type: string): string {
       return 'youtube';
   }
 }
+
+// Animation utilities for Tailwind
+export const animationConfig = {
+  'fade-in': 'animate-fade-in',
+  'slide-up': 'animate-slide-up',
+  'slide-down': 'animate-slide-down',
+  'slide-left': 'animate-slide-left',
+  'slide-right': 'animate-slide-right',
+};
